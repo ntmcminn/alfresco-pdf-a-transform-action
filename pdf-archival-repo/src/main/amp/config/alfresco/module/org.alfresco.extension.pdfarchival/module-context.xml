@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Bean action definitions -->
+	<import resource="classpath:alfresco/module/org.alfresco.extension.pdfarchival/context/alfresco-pdfarchival-context.xml" />
+	
+	<!-- load the custom content model -->
+	<bean id="pdfarchival-model" parent="dictionaryModelBootstrap" depends-on="dictionaryBootstrap">
+		<property name="models">
+			<list>
+				<value>alfresco/module/org.alfresco.extension.pdfarchival/model/pdfArchivalModel.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- The strings -->
+	<bean id="pdfarchival-messages" class="org.alfresco.i18n.ResourceBundleBootstrapComponent">
+		<property name="resourceBundles">
+			<list>
+				<value>alfresco.messages.pdfarchival</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="bootstrapExtraBundlesBean" class="org.alfresco.web.app.ResourceBundleBootstrap">
+		<property name="resourceBundles">
+			<list>
+				<value>alfresco.messages.pdfarchival</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- PDF/A level constants -->
+	<bean id="pdfc-archivelevel" class="org.alfresco.extension.pdfarchival.constraints.MapConstraint" parent="action-constraint">
+		<property name="constraintMap">
+			<map>
+				<entry key="1" value="PDFX1A2001"/>
+				<entry key="3" value="PDFA1A"/>
+				<entry key="4" value="PDFA1B"/>
+			</map>
+		</property>
+	</bean>
+</beans>

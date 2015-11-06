@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Definition of new Model -->
+<model name="pdfa:pdfarchivemodel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+    
+    <description>PDF Archival content model</description>
+    <author>Nathan McMinn</author>
+    <version>1.0</version>
+
+    <imports>
+        <!-- Import Alfresco Dictionary Definitions -->
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d" />
+        <!-- Import Alfresco Content Domain Model Definitions -->
+        <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm" />
+    </imports>
+    
+    <!-- create the PDF toolkit namespace -->
+    <namespaces>
+        <namespace uri="http://www.alfresco.com/model/pdfarchive/1.0" prefix="pdfa" />
+    </namespaces>
+        
+    <aspects>
+        <!-- Marker aspect for PDF/A documents -->
+        <aspect name="pdfa:archival"></aspect>
+    </aspects>
+</model>

@@ -1,0 +1,54 @@
+<alfresco-config>
+
+	<!-- Configure visibility of pdft:signed aspect in Share -->
+	<config replace="false" evaluator="string-compare" condition="DocumentLibrary">
+		<aspects>
+		    <visible>
+				<aspect name="pdfa:archival" />
+			</visible>
+			<addable>
+			</addable>
+			<removeable>
+			</removeable>
+		</aspects>
+	</config>
+	
+	
+	<!-- document library indicators for signed and encrypted documents -->
+	<config evaluator="string-compare" condition="DocumentLibrary">
+        <indicators>
+            <indicator id="evaluator.pdftoolkit.doclib.indicator.isDocumentArchival"
+                       icon="pdf-archivable-16.png"
+                       index="504"
+                       label="indicator.pdfarchivable.archivable">
+                <evaluator>evaluator.pdfarchival.doclib.indicator.isDocumentArchival</evaluator>
+            </indicator>
+        </indicators>
+    </config>
+ 
+	<config evaluator="string-compare" condition="pdf-convert-to-archivable">
+    	<forms>
+        	<form>
+        		<field-visibility>
+        			<show id="inplace"/>
+        			<show id="destination-folder"/>
+        			<show id="destination-name"/>
+        			<show id="archive-level"/>
+        		</field-visibility>
+                <appearance>
+                	<field id="inplace">
+                		<control template="/org/alfresco/pdftoolkit/components/form/controls/hidingCheckbox.ftl">
+                        	<control-param name="hideProperties">assoc_destination-folder,prop_destination-name</control-param>    
+                        </control>
+                	</field>
+                </appearance>
+            </form>
+        </forms>
+    </config>
+    
+	<config evaluator="string-compare" condition="DocLibCustom">
+		<dependencies>
+			<js src="pdfarchive/components/doclib/pdfarchive-doclib-actions.js" />
+		</dependencies>
+	</config>
+</alfresco-config>

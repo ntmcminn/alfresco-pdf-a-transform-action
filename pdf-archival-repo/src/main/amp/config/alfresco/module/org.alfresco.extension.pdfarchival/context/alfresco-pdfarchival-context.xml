@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- pdf-convert-to-archivable -->
+	<bean id="pdf-convert-to-archivable"
+		class="org.alfresco.extension.pdfarchival.repo.action.executer.PDFConvertToArchivableActionExecuter"
+		parent="action-executer" depends-on="pdfarchival-messages">
+		<property name="serviceRegistry">
+			<ref bean="ServiceRegistry"/>
+		</property>
+		<property name="applicableTypes">
+            <list>
+                <value>{http://www.alfresco.org/model/content/1.0}content</value>
+            </list>
+        </property>
+        <property name="createNew" value="true"/>
+        <property name="archiveLevelConstraint">
+			<ref bean="pdfc-archivelevel"/>
+		</property>
+		<property name="jodConverter">
+			<ref bean="jodconverter.shared.instance"/>
+		</property>
+	</bean>
+	
+	<!-- Import the swftools transformer worker from the third party subsystem -->
+   	<bean id="jodconverter.shared.instance" class="org.alfresco.repo.management.subsystems.SubsystemProxyFactory">
+      	<property name="sourceApplicationContextFactory">
+        	<ref bean="OOoJodconverter" />
+      	</property>
+      	<property name="sourceBeanName">
+         	<value>jodconverter.shared.instance</value>
+      	</property>
+      	<property name="interfaces">
+         	<list>
+            	<value>org.alfresco.enterprise.repo.content.JodConverter</value>
+         	</list>
+      	</property>
+   	</bean>
+</beans>

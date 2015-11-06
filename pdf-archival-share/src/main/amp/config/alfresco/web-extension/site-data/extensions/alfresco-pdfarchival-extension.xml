@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<extension xmlns="http://www.springframework.org/extensions/surf/extensibility">
+	<modules>
+		<module>
+			<id>PDF Archive Actions UI - Transform to PDF/A</id>
+			<description>Expose the PDF/A transformation action doclib action UI</description>
+			<version>1.2</version>
+			<auto-deploy>true</auto-deploy>
+			<configurations>
+				<!-- Share config elements for the doclib actions -->
+				<config evaluator="string-compare" condition="DocLibActions">
+					<actions>
+						<action id="pdf-convert-to-archivable"
+							type="javascript"
+							label="actions.pdfarchival.convertToArchivable">
+			        		<param name="function">onActionFormDialog</param>
+			        		<param name="itemKind">action</param>
+			        		<param name="itemId">pdf-convert-to-archivable</param>
+			        		<param name="mode">create</param>
+			        		<param name="destination">{node.nodeRef}</param>
+			        		<param name="successMessage">message.convert-to-archivable.success</param>
+			        		<param name="failureMessage">message.convert-to-archivable.failure</param>
+			        		<evaluator>evaluator.pdfarchival.doclib.action.pdfMimetype</evaluator>
+						</action>
+					</actions>
+					<actionGroups>
+						<actionGroup id="document-browse">
+							<action index="508" id="pdf-convert-to-archivable"/>
+						</actionGroup>
+						<actionGroup id="document-details">
+							<action index="508" id="pdf-convert-to-archivable"/>
+						</actionGroup>
+					</actionGroups>
+				</config>
+			</configurations>
+		</module>
+	</modules>
+</extension>

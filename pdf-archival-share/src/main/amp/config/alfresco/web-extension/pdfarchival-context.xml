@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+
+	<!-- Add messages for pdf archival action extension -->
+	<bean id="pdfarchival.share.resources"
+		class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
+		<property name="resourceBundles">
+			<list>
+				<value>alfresco.messages.pdfarchival</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- evaluator to only show action on correct mime type -->
+	<bean id="evaluator.pdfarchival.doclib.action.pdfMimetype" parent="evaluator.doclib.action.isMimetype">
+		<property name="mimetypes">
+			<list>
+				<value>application/pdf</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- evaluator to show indicator if doc is signed -->
+	<bean id="evaluator.pdfarchival.doclib.indicator.isDocumentArchival" class="org.alfresco.web.evaluator.HasAspectEvaluator">
+		<property name="aspects">
+			<list>
+				<value>pdft:archival</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>
