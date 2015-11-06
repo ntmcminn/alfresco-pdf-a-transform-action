@@ -37,7 +37,7 @@
         		</field-visibility>
                 <appearance>
                 	<field id="inplace">
-                		<control template="/org/alfresco/pdftoolkit/components/form/controls/hidingCheckbox.ftl">
+                		<control template="/org/alfresco/pdfarchival/components/form/controls/hidingCheckbox.ftl">
                         	<control-param name="hideProperties">assoc_destination-folder,prop_destination-name</control-param>    
                         </control>
                 	</field>
