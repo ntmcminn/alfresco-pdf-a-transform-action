@@ -99,6 +99,7 @@ private boolean createNew = true;
 		
         Boolean inplace = Boolean.valueOf(String.valueOf(action.getParameterValue(PARAM_INPLACE)));
         Integer archiveLevel = Integer.valueOf(String.valueOf(action.getParameterValue(PARAM_ARCHIVE_LEVEL)));
+        String providedName = String.valueOf(action.getParameterValue(PARAM_DESTINATION_NAME));
         
 		// get an output file for the new PDF (temp file)
         File out = getTempFile(actionedUponNodeRef);
@@ -122,7 +123,7 @@ private boolean createNew = true;
         	ex.printStackTrace();
         }
 		
-		NodeRef destinationNode = createDestinationNode(String.valueOf(ns.getProperty(actionedUponNodeRef, ContentModel.PROP_NAME)), 
+		NodeRef destinationNode = createDestinationNode(getFilename(providedName, actionedUponNodeRef), 
         		(NodeRef)action.getParameterValue(PARAM_DESTINATION_FOLDER), actionedUponNodeRef, inplace);
         ContentWriter writer = serviceRegistry.getContentService().getWriter(destinationNode, ContentModel.PROP_CONTENT, true);
         writer.setEncoding(cs.getReader(actionedUponNodeRef, ContentModel.PROP_CONTENT).getEncoding());
@@ -156,6 +157,26 @@ private boolean createNew = true;
 
 	    return format;
 	}
+	
+	private String getFilename(String providedName, NodeRef targetNodeRef)
+    {
+		NodeService ns = serviceRegistry.getNodeService();
+		
+        String fileName = null;
+        if(providedName != null)
+        {
+        	fileName = String.valueOf(providedName);
+        	if(!fileName.endsWith(FILE_EXTENSION))
+        	{
+        		fileName = fileName + FILE_EXTENSION;
+        	}
+        }
+        else
+        {
+        	fileName = String.valueOf(ns.getProperty(targetNodeRef, ContentModel.PROP_NAME));
+        }
+        return fileName;
+    }
 	
     /**
      * @param actionedUponNodeRef

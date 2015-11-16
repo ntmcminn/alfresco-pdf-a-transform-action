@@ -19,7 +19,7 @@ PDFArchive.Util = {};
 
 		for(index in controls)
 		{
-			var control = new YAHOO.util.Dom.get((htmlIdPrefix + "_" + controls[index] + "-cntrl"));
+			var control = new YAHOO.util.Dom.get((htmlIdPrefix + "_" + controls[index]));
 			var container = control.parentElement;
 			if(value)
 			{
