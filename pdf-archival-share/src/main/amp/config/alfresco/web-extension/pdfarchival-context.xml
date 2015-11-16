@@ -26,7 +26,7 @@
 	<bean id="evaluator.pdfarchival.doclib.indicator.isDocumentArchival" class="org.alfresco.web.evaluator.HasAspectEvaluator">
 		<property name="aspects">
 			<list>
-				<value>pdft:archival</value>
+				<value>pdfa:archival</value>
 			</list>
 		</property>
 	</bean>

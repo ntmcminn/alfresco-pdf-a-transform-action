@@ -58,6 +58,7 @@ private boolean createNew = true;
      */
     public static final String NAME                     				  = "pdf-archive";
     public static final String PARAM_DESTINATION_FOLDER 				  = "destination-folder";
+    public static final String PARAM_DESTINATION_NAME					  = "destination-name";
     public static final String PARAM_ARCHIVE_LEVEL						  = "archive-level";
 
     /**
@@ -76,6 +77,7 @@ private boolean createNew = true;
     protected void addParameterDefinitions(List<ParameterDefinition> paramList)
     {
         paramList.add(new ParameterDefinitionImpl(PARAM_DESTINATION_FOLDER, DataTypeDefinition.NODE_REF, false, getParamDisplayLabel(PARAM_DESTINATION_FOLDER)));
+        paramList.add(new ParameterDefinitionImpl(PARAM_DESTINATION_NAME, DataTypeDefinition.TEXT, false, getParamDisplayLabel(PARAM_DESTINATION_NAME)));
         paramList.add(new ParameterDefinitionImpl(PARAM_ARCHIVE_LEVEL, DataTypeDefinition.INT, true, getParamDisplayLabel(PARAM_ARCHIVE_LEVEL), false, "pdfc-archivelevel"));
         paramList.add(new ParameterDefinitionImpl(PARAM_INPLACE, DataTypeDefinition.BOOLEAN, false, getParamDisplayLabel(PARAM_INPLACE), false));
     }
@@ -83,6 +85,9 @@ private boolean createNew = true;
 	@Override
 	protected void executeImpl(Action action, NodeRef actionedUponNodeRef) 
 	{
+		
+		//is the JOD Converter available?  If not, punch out right away.
+		if(!jodConverter.isAvailable()) throw new AlfrescoRuntimeException("JOD Converter is not available");
 		
 		NodeService ns = serviceRegistry.getNodeService();
 		ContentService cs = serviceRegistry.getContentService();
@@ -102,11 +107,20 @@ private boolean createNew = true;
         File in = nodeRefToTempFile(actionedUponNodeRef);
         
 		// transform to PDF/A
-        DocumentFormatRegistry formatRegistry = new DefaultDocumentFormatRegistry();
-        formatRegistry.getFormatByExtension(PDF).setInputFamily(DocumentFamily.DRAWING);
-        OfficeDocumentConverter converter = new OfficeDocumentConverter(jodConverter.getOfficeManager(), formatRegistry);
+        OfficeDocumentConverter converter=new OfficeDocumentConverter(jodConverter.getOfficeManager());
         
-		converter.convert(in, out, getDocumentFormat(archiveLevel));
+        //DocumentFormatRegistry formatRegistry = new DefaultDocumentFormatRegistry();
+        //formatRegistry.getFormatByExtension(PDF).setInputFamily(DocumentFamily.DRAWING);
+        //OfficeDocumentConverter converter = new OfficeDocumentConverter(jodConverter.getOfficeManager(), formatRegistry);
+        
+        try
+        {
+        	converter.convert(in, out, getDocumentFormat(archiveLevel));
+        }
+        catch(Exception ex)
+        {
+        	ex.printStackTrace();
+        }
 		
 		NodeRef destinationNode = createDestinationNode(String.valueOf(ns.getProperty(actionedUponNodeRef, ContentModel.PROP_NAME)), 
         		(NodeRef)action.getParameterValue(PARAM_DESTINATION_FOLDER), actionedUponNodeRef, inplace);
@@ -136,6 +150,8 @@ private boolean createNew = true;
 	    filterData.put("SelectPdfVersion", level);
 	    properties.put("FilterData", filterData);
 
+	    format.setInputFamily(DocumentFamily.DRAWING);
+	    format.setLoadProperties(properties);
 	    format.setStoreProperties(DocumentFamily.DRAWING, properties);
 
 	    return format;

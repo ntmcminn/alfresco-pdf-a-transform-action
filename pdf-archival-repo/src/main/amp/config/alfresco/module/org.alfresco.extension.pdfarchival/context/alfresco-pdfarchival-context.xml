@@ -20,12 +20,12 @@
 			<ref bean="pdfc-archivelevel"/>
 		</property>
 		<property name="jodConverter">
-			<ref bean="jodconverter.shared.instance"/>
+			<ref bean="archival.jodconverter.shared.instance"/>
 		</property>
 	</bean>
 	
 	<!-- Import the swftools transformer worker from the third party subsystem -->
-   	<bean id="jodconverter.shared.instance" class="org.alfresco.repo.management.subsystems.SubsystemProxyFactory">
+   	<bean id="archival.jodconverter.shared.instance" class="org.alfresco.repo.management.subsystems.SubsystemProxyFactory">
       	<property name="sourceApplicationContextFactory">
         	<ref bean="OOoJodconverter" />
       	</property>

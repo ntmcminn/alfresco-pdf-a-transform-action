@@ -48,7 +48,7 @@
     
 	<config evaluator="string-compare" condition="DocLibCustom">
 		<dependencies>
-			<js src="pdfarchive/components/doclib/pdfarchive-doclib-actions.js" />
+			<js src="pdfarchival/components/doclib/pdfarchival-doclib-actions.js" />
 		</dependencies>
 	</config>
 </alfresco-config>
